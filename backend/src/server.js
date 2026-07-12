@@ -4,6 +4,7 @@ const express = require('express');
 const connectDB = require('./config/db')
 const authRoutes = require('./routes/auth.routes')
 const vehicleRoutes = require('./routes/vehicle.routes');
+const driverRoutes = require('./routes/driver.routes')
 const cookieParser = require("cookie-parser");
 const cors = require('cors')
 
@@ -27,6 +28,7 @@ app.use(
 
 app.use('/api',authRoutes);
 app.use('/api',vehicleRoutes);
+app.use('/api',driverRoutes);
 
 app.get('/api/health',async(req,res)=>{
     res.status(200).json({
