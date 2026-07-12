@@ -2,12 +2,36 @@ require('dotenv').config()
 
 const express = require('express');
 const connectDB = require('./config/db')
-
-
-const app = express();;
-
+const authRoutes = require('./routes/auth.routes')
+const cookieParser = require("cookie-parser");
+const cors = require('cors')
 
 const PORT =process.env.PORT || 3000;
+
+const app = express();
+
+// Middlewares
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }));
+
+app.use(cookieParser());
+app.use(
+    cors({
+        origin:process.env.CLIENT_URL,
+        credentials:true 
+    })
+);
+
+// Routes 
+
+app.use('/api',authRoutes);
+
+app.get('/api/health',async(req,res)=>{
+    res.status(200).json({
+        message:'EvertThing is Fine'
+    })
+})
+
 
 const startServer = async() =>{
     connectDB().then(()=>{
